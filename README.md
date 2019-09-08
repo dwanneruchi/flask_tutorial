@@ -53,6 +53,10 @@ Everything in this specific section has come from the aforementioned tutorials b
 - Running our application: 
     - `flask run`
 
+- Working with flask shell: 
+    - "The `app.shell_context_processor` decorator registers the function as a shell context function. When the flask shell command runs, it will invoke this function and register the items returned by it in the shell session"
+    - Just run `flask shell`, which is going to pre-import the whole application instance. 
+
 ### app/templates/:
 
 #### template inheritance: base.html
