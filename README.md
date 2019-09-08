@@ -13,14 +13,17 @@ Everything in this specific section has come from the aforementioned tutorials b
 
 - requirements.txt file includes all dependencies 
 
-
 ## Overview of Files: 
 
 ### app/__init__.py:
 
 - Our init file is going to create the application object as an instance of class `Flask`
-- 
 
+- This is also where we pull in our config information
+
+- Our `db` object is also read in here, as is the `migrate` object. 
+
+- models is where we wiill be pulling in database structures
 
 ### app/routes.py: 
 
@@ -117,6 +120,47 @@ The first class is `LoginForm` which is going to inherit from FlaskForm. We also
 
 Miguel mentions these are not natively supported, so we can use whatever we want (to an extent) 
 
+#### SQLAlchemy
+
+The tutorial proposes using the SQLAlchemy which will allow us to use SQLite, which does not require a server for early work (and for my purposes will be more than sufficient)
+
+SQLAlchemy can also work with PostgresSQL and MySQL, maybe better for production. 
+
+#### Database Migrations: 
+
+Flask-migrate (created by the author of these tutorials - cool!) allows a database to get shifted in the future without much headache. 
+
+- We were able to establish automatic migrations with `flask db migrate -m "users table"`
+
+- In order to accept an update to our DB change we use `flask db upgrade`, and to roll back a change we can use `flask db downgrade` 
+
+    - Cool note from author: "Because this application uses SQLite, the upgrade command will detect that a database does not exist and will create it (you will notice a file named app.db is added after this command finishes, that is the SQLite database)"
+
+#### app/models.py: 
+
+- this is where we build the various database classes 
+
+- why don't we store passwords here? 
+    - "The problem with storing passwords is that if the database ever becomes compromised, the attackers will have access to the passwords, and that could be devastating for users."
+
+##### user class: 
+
+- The user class inherits from `db.Model`
+- We define a few different fields, specifically as instances of `db.Column` class.
+- The `__repr__` method tells Python how to print objects of this class, which is going to be useful for debugging
+- There is a spot for the `password_hash` as well as a location to connect to the post database
+- `posts`: 
+    - "This is not an actual database field, but a high-level view of the relationship between users and posts, and for that reason it isn't in the database diagram. For a one-to-many relationship, a db.relationship field is normally defined on the "one" side, and is used as a convenient way to get access to the "many". So for example, if I have a user stored in u, the expression u.posts will run a database query that returns all the posts written by that user."
+    - "The first argument to db.relationship is the model class that represents the "many" side of the relationship. This argument can be provided as a string with the class name if the model is defined later in the module. The backref argument defines the name of a field that will be added to the objects of the "many" class that points back at the "one" object. This will add a post.author expression that will return the user given a post. The lazy argument defines how the database query for the relationship will be issued"
+
+##### post class: 
+
+- `timestamp` is going to be automatically set
+- `id` is just a primary key for the table
+- `body` should be input by the user 
+- `user_id` is a foreign key, allowing us to link back to the `id` in the users table. 
+
+
 ### Connecting with Heroku: This one took me awhile
 
 Okay, this was a bit of a pain for me because I am using Ubuntu 16.04 through WSL (Info: https://docs.microsoft.com/en-us/windows/wsl/install-manual). There are some very helpful resources, but here are the steps I took: 
@@ -145,4 +189,10 @@ Okay, this was a bit of a pain for me because I am using Ubuntu 16.04 through WS
 ### config.py
 
 I still don't fully follow what is going on here, but the `SECRET_KEY` is important in order tolimit who can access web forms. 
+
+We also add some database info: 
+- "The Flask-SQLAlchemy extension takes the location of the application's database from the SQLALCHEMY_DATABASE_URI configuration variable"
+    - We take the database by looking for a specific DB URL, but if that fails then we just build one with the basedir command. (`basedir.py` shows an example of checking where this will place the db, short answer is it just gets added to root)
+- "The SQLALCHEMY_TRACK_MODIFICATIONS configuration option is set to False to disable a feature of Flask-SQLAlchemy that I do not need, which is to signal the application every time a change is about to be made in the database."
+
 
