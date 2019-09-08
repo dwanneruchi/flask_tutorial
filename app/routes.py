@@ -12,12 +12,12 @@ def index_for():
     user = {'username': 'David'}
     posts = [
         {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
+            'author': {'username': 'David'},
+            'body': 'I need to workout!'
         },
         {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
+            'author': {'username': 'Lauren'},
+            'body': 'I feel sick!'
         }
     ]
     return render_template('index_for_loop.html', title='Home', user=user, posts=posts)
@@ -28,12 +28,12 @@ def index_inherit():
     user = {'username': 'David'}
     posts = [
         {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
+            'author': {'username': 'David'},
+            'body': 'I need to workout!'
         },
         {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
+            'author': {'username': 'Lauren'},
+            'body': 'I feel sick!'
         }
     ]
     return render_template('index_inherit.html', title='Home', user=user, posts=posts)
