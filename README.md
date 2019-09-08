@@ -161,6 +161,33 @@ Flask-migrate (created by the author of these tutorials - cool!) allows a databa
 - `user_id` is a foreign key, allowing us to link back to the `id` in the users table. 
 
 
+#### adding users to our database: 
+
+- changes to a database are done in the context of a session 
+
+- "Multiple changes can be accumulated in a session and once all the changes have been registered you can issue a single `db.session.commit()`, which writes all the changes atomically"
+
+The example below shows how we can add a single user: 
+
+```python
+from app import db
+from app.models import User, Post
+
+u = User(username='john', email='john@example.com')
+db.session.add(u)
+db.session.commit()
+```
+
+- " If at any time while working on a session there is an error, a call to db.session.rollback() will abort the session and remove any changes stored in it."
+
+Here is how we add a blog post: We will limit to get our user with id 1, and then add a post for them. 
+
+```python
+u = User.query.get(1)
+p = Post(body='my first post!', author=u)db.session.add(p)
+db.session.commit()
+```
+
 ### Connecting with Heroku: This one took me awhile
 
 Okay, this was a bit of a pain for me because I am using Ubuntu 16.04 through WSL (Info: https://docs.microsoft.com/en-us/windows/wsl/install-manual). There are some very helpful resources, but here are the steps I took: 
