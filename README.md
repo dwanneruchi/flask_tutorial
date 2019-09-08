@@ -117,17 +117,30 @@ The first class is `LoginForm` which is going to inherit from FlaskForm. We also
 
 Miguel mentions these are not natively supported, so we can use whatever we want (to an extent) 
 
-### Connecting with Heroku: 
+### Connecting with Heroku: This one took me awhile
 
-Okay, this was a bit of a pain for me. There are some very helpful resources, but here are the steps I took: 
+Okay, this was a bit of a pain for me because I am using Ubuntu 16.04 through WSL (Info: https://docs.microsoft.com/en-us/windows/wsl/install-manual). There are some very helpful resources, but here are the steps I took: 
 
-- Make sure you are working in a git repo; also need to have the heroku CLI working (info here: )
+- Make sure you are working in a git repo for your flask app; also need to have the heroku CLI working (info here: https://devcenter.heroku.com/articles/heroku-cli)
+
+- your flask app (the .py) needs to be in the root of your directory (otherise Heroku can't find your build type). I think you can also just provide a `.txt` file with versioning info as well (`runtime.txt`). Much better info on general set-up is here: https://github.com/heroku/python-getting-started
 
 - create heroku app: `heroku create djw-microblog`
 
-- then need to add a git remote: `git:remote -a djw-microblog`
+- then need to add a git remote: `heroku git:remote -a djw-microblog`
 
 - should see info on heroku when you run `git remote -v`
+
+- Push updates to heroku: `git push heroku master`
+
+- A few other things we need: 
+    - Add a `Procfile` -  this is going to tell Heroku how to execute the application. For this simple application we just provide info on web stuff, run db update, flask translate, then start the server (gunicorn microblog:app)
+
+    - THe folllowing needs to happen for the flask command to work: `heroku config:set FLASK_APP=microblog.py`
+
+- Anytime we make an update and want to redeploy we just run `git push heroku master`
+
+- Where can I view the site? https://djw-microblog.herokuapp.com/
 
 ### config.py
 
