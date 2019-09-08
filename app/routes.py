@@ -18,6 +18,10 @@ def index_for():
         {
             'author': {'username': 'Lauren'},
             'body': 'I feel sick!'
+        },
+        {
+            'author': {'username': 'Rick'},
+            'body': 'Come dine at the best STL Malaysian restaurant!'
         }
     ]
     return render_template('index_for_loop.html', title='Home', user=user, posts=posts)
