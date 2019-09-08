@@ -54,3 +54,9 @@ coverage.xml
 docs/_build/
 
 *.DS_Store
+
+# my database & virtual env
+venv
+app.db
+microblog.log*
+
