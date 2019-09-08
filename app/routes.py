@@ -38,6 +38,10 @@ def index_inherit():
         {
             'author': {'username': 'Lauren'},
             'body': 'I feel sick!'
+        },
+        {
+            'author': {'username': 'Rick'},
+            'body': 'Come dine at the best STL Malaysian restaurant!'
         }
     ]
     return render_template('index_inherit.html', title='Home', user=user, posts=posts)
