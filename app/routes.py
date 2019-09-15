@@ -21,8 +21,8 @@ def index():
             'body': 'I feel sick!'
         },
         {
-            'author': {'username': 'Rick'},
-            'body': 'Come dine at the best STL Malaysian restaurant!'
+            'author': {'username': 'David'},
+            'body': 'Testing testing!'
         }
     ]
     return render_template('index.html', title='Home', posts=posts)
